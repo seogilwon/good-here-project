@@ -11,63 +11,63 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import bitcamp.goodhere.service.StudentService;
-import bitcamp.goodhere.vo.Student;
+import bitcamp.goodhere.service.MemberService;
+import bitcamp.goodhere.vo.Member;
 import bitcamp.util.RestResult;
 import bitcamp.util.RestStatus;
 
 @RestController
-@RequestMapping("/students")
-public class StudentController {
+@RequestMapping("/members")
+public class MemberController {
 
   Logger log = LogManager.getLogger(getClass());
 
   {
-    log.trace("StudentController 생성됨!");
+    log.trace("MemberController 생성됨!");
   }
 
-  @Autowired private StudentService studentService;
+  @Autowired private MemberService memberService;
 
   @PostMapping
-  public Object insert(@RequestBody Student student) {
-    studentService.add(student);
+  public Object insert(@RequestBody Member member) {
+    memberService.add(member);
     return new RestResult()
         .setStatus(RestStatus.SUCCESS);
   }
 
   @GetMapping
-  public Object list(String keyword) {
+  public Object list() {
     return new RestResult()
         .setStatus(RestStatus.SUCCESS)
-        .setData(studentService.list(keyword));
+        .setData(memberService.list());
   }
 
   @GetMapping("{no}")
   public Object view(@PathVariable int no) {
     return new RestResult()
         .setStatus(RestStatus.SUCCESS)
-        .setData(studentService.get(no));
+        .setData(memberService.get(no));
   }
 
   @PutMapping("{no}")
   public Object update(
       @PathVariable int no,
-      @RequestBody Student student) {
+      @RequestBody Member member) {
 
-    log.debug(student);
+    log.debug(member);
 
-    // 보안을 위해 URL 번호를 게시글 번호로 설정한다.
-    student.setNo(no);
+    member.setNo(no);
+    memberService.update(member);
 
-    studentService.update(student);
     return new RestResult()
         .setStatus(RestStatus.SUCCESS);
   }
 
   @DeleteMapping("{no}")
   public Object delete(@PathVariable int no) {
-    studentService.delete(no);
+    memberService.delete(no);
     return new RestResult()
         .setStatus(RestStatus.SUCCESS);
   }
+
 }

@@ -18,4 +18,8 @@ public class Member {
       shape = Shape.STRING,
       pattern = "yyyy-MM-dd")
   private Date createdDate;
+  private int degree;
+  private String school;
+  private String major;
+  private int wage;
 }

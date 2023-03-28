@@ -7,52 +7,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import bitcamp.goodhere.dao.MemberDao;
-import bitcamp.goodhere.dao.StudentDao;
-import bitcamp.goodhere.service.StudentService;
-import bitcamp.goodhere.vo.Student;
+import bitcamp.goodhere.service.MemberService;
+import bitcamp.goodhere.vo.Member;
 
 @Service
-public class DefaultStudentService implements StudentService {
+public class DefaultMemberService implements MemberService {
 
   @Autowired private MemberDao memberDao;
-  @Autowired private StudentDao studentDao;
 
   @Transactional
   @Override
-  public void add(Student student) {
-    memberDao.insert(student);
-    studentDao.insert(student);
+  public void add(Member member) {
+    memberDao.insert(member);
+    memberDao.insert(member);
   }
 
   @Override
-  public List<Student> list(String keyword) {
-    return studentDao.findAll(keyword);
+  public List<Member> list() {
+    return memberDao.findAll();
   }
 
   @Override
-  public Student get(int no) {
-    return studentDao.findByNo(no);
+  public Member get(int no) {
+    return memberDao.findByNo(no);
   }
 
   @Override
-  public Student get(String email, String password) {
+  public Member get(String email, String password) {
     Map<String,Object> paramMap = new HashMap<>();
     paramMap.put("email", email);
     paramMap.put("password", password);
 
-    return studentDao.findByEmailAndPassword(paramMap);
-  }
-
-  @Override
-  public Student get(String email) {
-    return studentDao.findByEmail(email);
+    return memberDao.findByEmailAndPassword(paramMap);
   }
 
   @Transactional
   @Override
-  public void update(Student student) {
-    if (memberDao.update(student) == 1 &&
-        studentDao.update(student) == 1) {
+  public void update(Member member) {
+    if (memberDao.update(member) == 1 &&
+        memberDao.update(member) == 1) {
     } else {
       throw new RuntimeException("회원이 존재하지 않습니다.");
     }
@@ -61,7 +54,7 @@ public class DefaultStudentService implements StudentService {
   @Transactional
   @Override
   public void delete(int no) {
-    if (studentDao.delete(no) == 1 &&
+    if (memberDao.delete(no) == 1 &&
         memberDao.delete(no) == 1) {
     } else {
       throw new RuntimeException("회원이 존재하지 않습니다.");

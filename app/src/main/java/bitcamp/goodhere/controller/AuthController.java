@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import bitcamp.goodhere.service.StudentService;
-import bitcamp.goodhere.service.TeacherService;
+import bitcamp.goodhere.service.MemberService;
 import bitcamp.goodhere.vo.Member;
-import bitcamp.goodhere.vo.Student;
 import bitcamp.util.RestResult;
 import bitcamp.util.RestStatus;
 import jakarta.servlet.http.HttpSession;
@@ -28,8 +26,7 @@ public class AuthController {
     log.trace("AuthController 생성됨!");
   }
 
-  @Autowired private StudentService studentService;
-  @Autowired private TeacherService teacherService;
+  @Autowired private MemberService memberService;
 
   @PostMapping("login")
   public Object login(
@@ -40,11 +37,8 @@ public class AuthController {
 
     Member member = null;
     switch (usertype) {
-      case "student":
-        member = studentService.get(email, password);
-        break;
-      case "teacher":
-        member = teacherService.get(email, password);
+      case "member":
+        member = memberService.get(email, password);
         break;
     }
 
@@ -102,18 +96,18 @@ public class AuthController {
     String name = (String) result.get("name");
 
     // 기존 회원 정보 가져오기
-    Student user = studentService.get(email);
+    Member user = memberService.get(email);
     if (user == null) {
       // 페이스북에서 받은 최소 정보를 가지고 회원 가입을 위한 객체를 준비한다.
-      Student s = new Student();
+      Member s = new Member();
       s.setEmail(email);
       s.setName(name);
       s.setPassword("bitcamp-nopassword");
 
       // 회원 가입을 수행한다.
-      studentService.add(s);
+      memberService.add(s);
     }
-    user = studentService.get(email);
+    user = memberService.get(email);
 
     // 세션에 로그인 사용자 정보 보관
     session.setAttribute("loginUser", user);

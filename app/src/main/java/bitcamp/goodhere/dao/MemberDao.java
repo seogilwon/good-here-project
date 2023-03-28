@@ -1,6 +1,7 @@
 package bitcamp.goodhere.dao;
 
 import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import bitcamp.goodhere.vo.Member;
 
@@ -12,6 +13,8 @@ public interface MemberDao {
   List<Member> findAll();
 
   Member findByNo(int no);
+
+  Member findByEmailAndPassword(Map<String, Object> params);
 
   int update(Member m);
 

@@ -1,5 +1,5 @@
 showInput();
-getStudents();
+getmembers();
 
 const html = document.querySelector("#tr-template").innerHTML;
 const templateEngine = Handlebars.compile(html);
@@ -29,25 +29,25 @@ function showEdit() {
 }
 
 document.querySelector("input[name='keyword']").onkeyup = (e) => {
-  getStudents(e.target.value);
+  getmembers(e.target.value);
 };
 
 document.querySelector("#btn-search").onclick = () => {
-  getStudents(keyword);
+  getmembers(keyword);
 };
 
-function getStudents(keyword) {
+function getmembers(keyword) {
   let qs = "";
   if (keyword) {
     qs = `?keyword=${keyword}`;
   }
 
-  fetch("../students" + qs)
+  fetch("../members" + qs)
     .then((response) => {
       return response.json();
     })
     .then((result) => {
-      document.querySelector("#student-table > tbody").innerHTML =
+      document.querySelector("#member-table > tbody").innerHTML =
         templateEngine(result.data);
     });
 }
@@ -65,10 +65,10 @@ function getLevelTitle(level) {
   }
 }
 
-function getStudent(e) {
+function getmember(e) {
   let no = e.currentTarget.getAttribute("data-no");
 
-  fetch("../students/" + no)
+  fetch("../members/" + no)
     .then((response) => {
       return response.json();
     })
@@ -78,33 +78,27 @@ function getStudent(e) {
         return;
       }
 
-      let student = result.data;
-      console.log(student);
-      document.querySelector("#f-no").value = student.no;
-      document.querySelector("#f-name").value = student.name;
-      document.querySelector("#f-email").value = student.email;
-      document.querySelector("#f-tel").value = student.tel;
-      document.querySelector("#f-postNo").value = student.postNo;
-      document.querySelector("#f-basicAddress").value = student.basicAddress;
-      document.querySelector("#f-detailAddress").value = student.detailAddress;
-      document.querySelector("#f-working").checked = student.working;
-      document.querySelector(
-        `input[name="gender"][value="${student.gender}"]`
-      ).checked = true;
-      document.querySelector("#f-level").value = student.level;
-      document.querySelector("#f-createdDate").innerHTML = student.createdDate;
+      let member = result.data;
+      console.log(member);
+      document.querySelector("#f-member_id").value = member.member_id;
+      document.querySelector("#f-email").value = member.email;
+      document.querySelector("#f-name").value = member.name;
+      document.querySelector("#f-tel").value = member.tel;
+      document.querySelector("#f-nickname").value = member.nickname;
+      document.querySelector("#f-introduce").value = member.introduce;
+      document.querySelector("#f-created_date").innerHTML = member.created_date;
 
       showEdit();
     });
 }
 
 document.querySelector("#btn-insert").onclick = () => {
-  const form = document.querySelector("#student-form");
+  const form = document.querySelector("#member-form");
   const formData = new FormData(form);
 
   let json = JSON.stringify(Object.fromEntries(formData));
 
-  fetch("../students", {
+  fetch("../members", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -129,7 +123,7 @@ document.querySelector("#btn-insert").onclick = () => {
 };
 
 document.querySelector("#btn-update").onclick = () => {
-  const form = document.querySelector("#student-form");
+  const form = document.querySelector("#member-form");
   const formData = new FormData(form);
 
   // FormData ==> Query String
@@ -142,7 +136,7 @@ document.querySelector("#btn-update").onclick = () => {
   let json = JSON.stringify(Object.fromEntries(formData));
   //console.log(json);
 
-  fetch("../students/" + document.querySelector("#f-no").value, {
+  fetch("../members/" + document.querySelector("#f-no").value, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -171,7 +165,7 @@ document.querySelector("#btn-update").onclick = () => {
 };
 
 document.querySelector("#btn-delete").onclick = () => {
-  fetch("../students/" + document.querySelector("#f-no").value, {
+  fetch("../members/" + document.querySelector("#f-no").value, {
     method: "DELETE",
   })
     .then((response) => {
