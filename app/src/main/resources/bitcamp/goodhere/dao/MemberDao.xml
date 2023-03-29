@@ -6,16 +6,21 @@
 
   <resultMap type="member" id="memberMap">
     <id column="member_id" property="no"/>
-    <result column="name" property="name"/>
     <result column="email" property="email"/>
+    <result column="name" property="name"/>
     <result column="tel" property="tel"/>
-    <result column="created_date" property="createdDate"/>
+    <result column="nickname" property="nickname"/>
+    <result column="intorduce" property="intorduce"/>
+    <result column="photo" property="photo"/>
+    <result column="created_date" property="created_date"/>
+    <result column="state" property="state"/>
+    <result column="auth" property="auth"/>
   </resultMap>
 
   <insert id="insert" parameterType="member" 
           useGeneratedKeys="true" keyProperty="no" keyColumn="member_id">
-    insert into app_member(name, email, pwd, tel)
-    values(#{name}, #{email}, sha2(#{password},256), #{tel})
+    insert into gh_member(email, pwd, name, tel, nickname)
+    values(#{email}, sha2(#{password},256), #{name}, #{tel}, #{nickname}, #{introduce}, #{photo}, #{state}, #{auth})
   </insert>
 
   <select id="findAll" resultMap="memberMap">
@@ -25,7 +30,7 @@
       email, 
       created_date 
     from 
-      app_member
+      gh_member
     order by 
       member_id desc
   </select>
@@ -38,13 +43,13 @@
       tel,
       created_date 
     from 
-      app_member
+      gh_member
     where 
       member_id=#{no}
   </select>
   
   <update id="update" parameterType="member">
-    update app_member set
+    update gh_member set
       name=#{name}, 
       email=#{email}, 
       pwd=sha2(#{password},256), 
@@ -53,7 +58,7 @@
   </update>
   
   <delete id="delete" parameterType="int">
-    delete from app_member
+    delete from gh_member
     where member_id=#{no}
   </delete>
 </mapper>

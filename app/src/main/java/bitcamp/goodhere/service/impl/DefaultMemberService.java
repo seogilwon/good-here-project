@@ -19,7 +19,6 @@ public class DefaultMemberService implements MemberService {
   @Override
   public void add(Member member) {
     memberDao.insert(member);
-    memberDao.insert(member);
   }
 
   @Override
@@ -39,6 +38,11 @@ public class DefaultMemberService implements MemberService {
     paramMap.put("password", password);
 
     return memberDao.findByEmailAndPassword(paramMap);
+  }
+
+  @Override
+  public Member get(String email) {
+    return memberDao.findByEmail(email);
   }
 
   @Transactional
