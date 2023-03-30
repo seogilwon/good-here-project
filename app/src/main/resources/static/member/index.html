@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <h1>학생</h1>
+    <h1>회원</h1>
 
     <aside>
       <div>
@@ -31,14 +31,14 @@
         <table border="1">
           <tr class="edit">
             <th>번호</th>
-            <td><input id="f-member_id" type="text" name="member_id" readonly /></td>
+            <td><input id="f-member-id" type="text" name="no" readonly /></td>
           </tr>
           <tr>
             <th>아이디(이메일)</th>
             <td><input id="f-email" type="email" name="email" /></td>
           </tr>
           <tr>
-            <th>암호</th>
+            <th>비밀번호</th>
             <td><input id="f-password" type="password" name="password" /></td>
           </tr>
           <tr>
@@ -46,24 +46,38 @@
             <td><input id="f-name" type="text" name="name" /></td>
           </tr>
           <tr>
-            <th>전화번호</th>
+            <th>휴대폰번호</th>
             <td><input id="f-tel" type="tel" name="tel" /></td>
           </tr>
           <tr>
-            <th>별명</th>
+            <th>닉네임</th>
             <td>
               <input id="f-nickname" type="text" name="nickname" />
             </td>
           </tr>
           <tr>
-            <th>자기소개</th>
+            <th>프로필소개</th>
             <td>
               <input id="f-introduce" type="text" name="introduce" />
+            </td>
+          </tr>
+          <tr>
+            <th>사진</th>
+            <td>
+              <input id="f-photo" type="text" name="photo" />
             </td>
           </tr>
           <tr class="edit">
             <th>가입일</th>
             <td><span id="f-created_date"></span></td>
+          </tr>
+          <tr>
+            <th>상태</th>
+            <td><input id="f-state" type="text" name="state" /></td>
+          </tr>
+          <tr>
+            <th>권한</th>
+            <td><input id="f-auth" type="text" name="auth" /></td>
           </tr>
         </table>
 

@@ -10,7 +10,7 @@
     <result column="name" property="name"/>
     <result column="tel" property="tel"/>
     <result column="nickname" property="nickname"/>
-    <result column="intorduce" property="intorduce"/>
+    <result column="introduce" property="introduce"/>
     <result column="photo" property="photo"/>
     <result column="created_date" property="created_date"/>
     <result column="state" property="state"/>
@@ -19,18 +19,24 @@
 
   <insert id="insert" parameterType="member" 
           useGeneratedKeys="true" keyProperty="no" keyColumn="member_id">
-    insert into gh_member(email, pwd, name, tel, nickname)
-    values(#{email}, sha2(#{password},256), #{name}, #{tel}, #{nickname}, #{introduce}, #{photo}, #{state}, #{auth})
+    insert into gh_member(email, password, name, tel, nickname, introduce, photo, state, auth) 
+    values(#{email}, #{password}, #{name}, #{tel}, #{nickname}, #{introduce}, #{photo}, #{state}, #{auth})
   </insert>
 
   <select id="findAll" resultMap="memberMap">
     select 
       member_id, 
-      name, 
       email, 
-      created_date 
+      name, 
+      tel, 
+      nickname, 
+      introduce, 
+      photo, 
+      created_date, 
+      state, 
+      auth 
     from 
-      gh_member
+      gh_member 
     order by 
       member_id desc
   </select>
@@ -38,22 +44,50 @@
   <select id="findByNo" parameterType="int" resultMap="memberMap">
     select 
       member_id, 
-      name, 
       email, 
-      tel,
-      created_date 
+      name, 
+      tel, 
+      nickname, 
+      introduce, 
+      photo, 
+      created_date, 
+      state, 
+      auth 
     from 
-      gh_member
+      gh_member 
     where 
       member_id=#{no}
   </select>
   
+    <select id="findByEmailAndPassword" parameterType="map" resultMap="memberMap">
+    select
+      member_id, 
+      email, 
+      name, 
+      tel, 
+      nickname, 
+      introduce, 
+      photo, 
+      created_date, 
+      state, 
+      auth 
+    from 
+      gh_member 
+    where 
+      email = #{email} and password = #{password}
+  </select>
+  
   <update id="update" parameterType="member">
     update gh_member set
-      name=#{name}, 
       email=#{email}, 
-      pwd=sha2(#{password},256), 
-      tel=#{tel}
+      password=#{password}, 
+      name=#{name}, 
+      tel=#{tel}, 
+      nickname=#{nickname}, 
+      introduce=#{introduce}, 
+      photo=#{photo}, 
+      state=#{state}, 
+      auth=#{auth} 
     where member_id=#{no}
   </update>
   

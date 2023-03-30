@@ -80,13 +80,16 @@ function getmember(e) {
 
       let member = result.data;
       console.log(member);
-      document.querySelector("#f-member_id").value = member.member_id;
+      document.querySelector("#f-member-id").value = member.no;
       document.querySelector("#f-email").value = member.email;
       document.querySelector("#f-name").value = member.name;
       document.querySelector("#f-tel").value = member.tel;
       document.querySelector("#f-nickname").value = member.nickname;
       document.querySelector("#f-introduce").value = member.introduce;
+      document.querySelector("#f-photo").value = member.photo;
       document.querySelector("#f-created_date").innerHTML = member.created_date;
+      document.querySelector("#f-state").value = member.state;
+      document.querySelector("#f-auth").value = member.auth;
 
       showEdit();
     });
@@ -136,7 +139,7 @@ document.querySelector("#btn-update").onclick = () => {
   let json = JSON.stringify(Object.fromEntries(formData));
   //console.log(json);
 
-  fetch("../members/" + document.querySelector("#f-no").value, {
+  fetch("../members/" + document.querySelector("#f-member-id").value, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -165,7 +168,7 @@ document.querySelector("#btn-update").onclick = () => {
 };
 
 document.querySelector("#btn-delete").onclick = () => {
-  fetch("../members/" + document.querySelector("#f-no").value, {
+  fetch("../members/" + document.querySelector("#f-member-id").value, {
     method: "DELETE",
   })
     .then((response) => {
